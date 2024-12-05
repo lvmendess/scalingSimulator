@@ -18,9 +18,13 @@ public class SJF {
                 if (processo.getTempoChegada() == clock) { // se o processo chega no clock atual, ele vai pro escalonamento
                     if (!comparacao.isEmpty()) {
                         for (Processo subprocesso : comparacao) {
-                            
-                            if (subprocesso.getTempoRestante() > processo.getTempoRestante()) {
-                                comparacao.add(comparacao.indexOf(subprocesso), processo);
+                            if(subprocesso.getTempoRestante() == subprocesso.getTempoExecucao()){
+                                if (subprocesso.getTempoRestante() > processo.getTempoRestante()) {
+                                    comparacao.add(comparacao.indexOf(subprocesso), processo);
+                                    break;
+                                }
+                            } else {
+                                comparacao.add(processo);
                                 break;
                             }
                         }
@@ -30,6 +34,7 @@ public class SJF {
                     //comparacao.add(processo);
                 }
             }
+            if (!comparacao.isEmpty()) {
                 Processo processoMaisAntigo = comparacao.getFirst();
                 for (Processo processo : comparacao) {
                     if (processo == processoMaisAntigo) {
@@ -44,7 +49,8 @@ public class SJF {
                     comparacao.remove(processoMaisAntigo);
                     execucao.remove(processoMaisAntigo);
                 }
-           clock++;
+            }
+            clock++;
         }
         return executados;
     }
