@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-public class SJF {
+public class SRT {
     ArrayList<Processo> executados;
     ArrayList<Processo> execucao;
     ArrayList<Processo> comparacao;
 
-    public SJF(ArrayList<Processo> processes){
+    public SRT(ArrayList<Processo> processes){
         this.execucao = processes;
         executados = new ArrayList<Processo>();
         comparacao = new ArrayList<Processo>();
@@ -20,13 +20,11 @@ public class SJF {
                     if (comparacao.size()>1) {
                         for (int i = comparacao.size() - 1; i > 0; i--) { // insertion sort
                             Processo subprocesso = comparacao.get(i - 1);
-                            if (subprocesso.getTempoRestante() == subprocesso.getTempoExecucao()) {
-                                if (subprocesso.getTempoRestante() > processo.getTempoRestante()) {
-                                    comparacao.remove(processo);
-                                    comparacao.add(i - 1, processo);
-                                }
+                            if (subprocesso.getTempoRestante() > processo.getTempoRestante()) {
+                                comparacao.remove(processo);
+                                comparacao.add(i - 1, processo);
                             }
-                        }                        
+                        }
                     }
                 }
             }
@@ -37,7 +35,9 @@ public class SJF {
                         processo.decreaseRestante();
                     } else {
                         processo.increaseEspera();
-                        processo.increaseResposta();
+                        if (processo.getTempoRestante() == processo.getTempoExecucao()) {
+                            processo.increaseResposta();
+                        }
                     }
                 }
                 if (processoMaisAntigo.getTempoRestante() == 0) {
