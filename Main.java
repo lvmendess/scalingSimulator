@@ -11,8 +11,10 @@ public class Main{
         EscritorTxt escritor = new EscritorTxt();
         ArrayList<Processo> processosFIFO = new ArrayList<>();
         ArrayList<Processo> processosSJF = new ArrayList<>();
-        float tempoResposta = 0, tempoEspera = 0, turnaround = 0;
-
+        ArrayList<Processo> processosSRT = new ArrayList<>();
+        ArrayList<Processo> processosRR = new ArrayList<>();
+        ArrayList<String> resultados = new ArrayList<>();
+        
         for (File arquivo : arquivos) {
             String name = arquivo.getName();
             System.out.println(arquivo.getName());
@@ -21,22 +23,23 @@ public class Main{
             String[] quantum = leitorTxt.proximaLinha();
 
             while ((linhaFatiada = leitorTxt.proximaLinha()) != null) {
-                Processo fifo = new Processo(Integer.parseInt(linhaFatiada[0]), Integer.parseInt(linhaFatiada[1]));
-                Processo sjf = new Processo(Integer.parseInt(linhaFatiada[0]), Integer.parseInt(linhaFatiada[1]));
-                //processos.add(aux);
-                processosFIFO.add(fifo);
-
-                processosSJF.add(sjf);
+                processosFIFO.add(new Processo(Integer.parseInt(linhaFatiada[0]), Integer.parseInt(linhaFatiada[1])));
+                processosSJF.add(new Processo(Integer.parseInt(linhaFatiada[0]), Integer.parseInt(linhaFatiada[1])));
+                processosSRT.add(new Processo(Integer.parseInt(linhaFatiada[0]), Integer.parseInt(linhaFatiada[1])));
+                processosRR.add(new Processo(Integer.parseInt(linhaFatiada[0]), Integer.parseInt(linhaFatiada[1])));
             }
             ArrayList<ArrayList<Processo>> algoritmos = new ArrayList<>();
-            //FIFO fifo = new FIFO(processosFIFO);
-            //algoritmos.add(fifo.linhaDeExecucao());
+            FIFO fifo = new FIFO(processosFIFO);
+            algoritmos.add(fifo.linhaDeExecucao());
             SJF sjf = new SJF(processosSJF);
             algoritmos.add(sjf.linhaDeExecucao());
-            // SRT
-            // RR
+            SRT srt = new SRT(processosSRT);
+            algoritmos.add(srt.linhaDeExecucao());
+            RR rr = new RR(processosRR, Integer.parseInt(quantum[0]));
+            algoritmos.add(rr.linhaDeExecucao());
             try {
                 for (ArrayList<Processo> listaProcessos : algoritmos) {
+                    float tempoResposta = 0, tempoEspera = 0, turnaround = 0;
                     for (Processo processo : listaProcessos) {
                         tempoResposta += processo.getTempoResposta();
                         tempoEspera += processo.getTempoEspera();
@@ -46,14 +49,13 @@ public class Main{
                     tempoResposta /= totalProcessos;
                     tempoEspera /= totalProcessos;
                     turnaround /= totalProcessos;
-                    System.out.printf("%.3f %.3f %.3f", tempoResposta, tempoEspera, turnaround);
-                    System.out.println();
+                    resultados.add(String.format("%.3f %.3f %.3f", tempoResposta, tempoEspera, turnaround));
                 }
-                    
+                escritor.write(resultados, name);
             }catch(NullPointerException e){
                 System.out.println(-1);
             }
-            //processos.clear();
+            resultados.clear();
         }
     }
 }
