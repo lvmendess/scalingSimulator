@@ -45,15 +45,15 @@ public class RR {
                         }
                     }
                 }
-            }
-            if (comparacao.peek().getTempoRestante() == 0) {
-                executados.add(comparacao.peek());
-                execucao.remove(comparacao.peek());
-                comparacao.remove();
-                quantum = quantumSize;
-            } else if (updateQuantum() == 0) {
-                Processo aux = comparacao.remove();
-                comparacao.add(aux);
+                if (comparacao.peek().getTempoRestante() == 0) {
+                    executados.add(comparacao.peek());
+                    execucao.remove(comparacao.peek());
+                    comparacao.remove();
+                    quantum = quantumSize;
+                } else if (updateQuantum() == 0) {
+                    Processo aux = comparacao.remove();
+                    comparacao.add(aux);
+                }
             }
             clock++;
         }
