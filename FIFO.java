@@ -19,19 +19,21 @@ public class FIFO {
                     comparacao.add(processo);
                 }
             }
-            Processo processoMaisAntigo = comparacao.getFirst();
-            for (Processo processo : comparacao) {
-                if (processo == processoMaisAntigo) {
-                    processo.decreaseRestante();
-                } else {
-                    processo.increaseEspera();
-                    processo.increaseResposta();
+            if (!comparacao.isEmpty()){
+                Processo processoMaisAntigo = comparacao.getFirst();
+                for (Processo processo : comparacao) {
+                    if (processo == processoMaisAntigo) {
+                        processo.decreaseRestante();
+                    } else {
+                        processo.increaseEspera();
+                        processo.increaseResposta();
+                    }
                 }
-            }
-            if (processoMaisAntigo.getTempoRestante() == 0) {
-                executados.add(processoMaisAntigo);
-                comparacao.remove(processoMaisAntigo);
-                execucao.remove(processoMaisAntigo);
+                if (processoMaisAntigo.getTempoRestante() == 0) {
+                    executados.add(processoMaisAntigo);
+                    comparacao.remove(processoMaisAntigo);
+                    execucao.remove(processoMaisAntigo);
+                }
             }
            clock++;
         }
