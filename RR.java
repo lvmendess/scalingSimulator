@@ -30,6 +30,7 @@ public class RR {
     public ArrayList<Processo> linhaDeExecucao(){
         int clock = 0;
         Processo aux = null;
+        System.out.print("RR: ");
         while (!execucao.isEmpty()) {
             for (Processo processo : execucao) {
                 if (processo.getTempoChegada() == clock) {
@@ -62,6 +63,7 @@ public class RR {
             }
             clock++;
         }
+        System.out.println(clock);
         return executados;
     }
 }

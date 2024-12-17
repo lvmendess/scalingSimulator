@@ -13,6 +13,7 @@ public class SRT {
 
     public ArrayList<Processo> linhaDeExecucao(){
         int clock = 0;
+        System.out.print("SRT: ");
         while(!execucao.isEmpty()){
             for (Processo processo : execucao) {
                 if (processo.getTempoChegada() == clock) { // se o processo chega no clock atual, ele vai pro escalonamento
@@ -29,7 +30,7 @@ public class SRT {
                 }
             }
             if (!comparacao.isEmpty()) {
-                Processo processoMaisAntigo = comparacao.getFirst();
+                Processo processoMaisAntigo = comparacao.get(0);
                 for (Processo processo : comparacao) {
                     if (processo == processoMaisAntigo) {
                         processo.decreaseRestante();
@@ -48,6 +49,7 @@ public class SRT {
             }
             clock++;
         }
+        System.out.println(clock);
         return executados;
     }
 }
