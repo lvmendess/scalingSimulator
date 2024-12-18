@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class Main{
     public static void main(String[] args) throws FileNotFoundException, IOException, CloneNotSupportedException{
-        String caminho = "testes\\";
-        File diretorio = new File(caminho);
+        String caminhoEntrada = "F:\\testes\\";
+        String caminhoSaida = "F:\\testes\\";
+        File diretorio = new File(caminhoEntrada);
         File[] arquivos = diretorio.listFiles();
         LeitorTxt leitorTxt;
-        EscritorTxt escritor = new EscritorTxt(caminho);
+        EscritorTxt escritor = new EscritorTxt(caminhoSaida);
         ArrayList<Processo> processosFIFO = new ArrayList<>();
         ArrayList<Processo> processosSJF = new ArrayList<>();
         ArrayList<Processo> processosSRT = new ArrayList<>();
